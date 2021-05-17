@@ -10,3 +10,5 @@ Aiven Test
 		  - where REGEX is the regular expression you want to check in the page body of the webpage you want to check.
 - To start the **consumer**, you need to start it with the following command:
  	py consumer.py
+
+Note: the **consumer** writes in the PostgreSQL DB and also to a local CSV file
