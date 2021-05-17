@@ -47,7 +47,7 @@ def fetch_last_min_requests(next_call_in, is_first_execution=False):
 	counter_requests = 0
 	if is_first_execution:
 		create_table()		
-		with open("requests.csv","a") as file:
+		with open("logs.csv","a") as file:
 			headers = ["datetime", "requests_num", "message"]
 			file.write(",".join(headers))
 			file.write("\n")
@@ -56,11 +56,12 @@ def fetch_last_min_requests(next_call_in, is_first_execution=False):
 		if len(batch) > 0:
 			for message in list(batch.values())[0]:
 				counter_requests += 1
-				with open("requests.csv","a") as file:
-					data = [datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), str(counter_requests), str(message.value)]
-					insert_log(str(message.value))
+				mess = str(message.value).split("'")[1]
+				with open("logs.csv","a") as file:					
+					data = [datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), str(counter_requests), str(mess)]					
 					file.write(",".join(data))
 					file.write("\n")
+					insert_log(str(mess))
 	
 	threading.Timer(next_call_in - time.time(),fetch_last_min_requests,[next_call_in]).start()
 
